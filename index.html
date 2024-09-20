@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Message</title>
+</head>
+<body>
+ <script>
+ // TODO: Add hello code
+ // TODO: Add setTimeout code
+function introduceName(name) {
+    return `안녕하세요 저의 이름은 ${name} 입니다. `;
+}
+
+function introduceAge(age) {
+    return `그리고 나이는 ${age}살 이고, `;
+}
+
+function introduceJob(job) {
+    return `마지막으로 직업은 ${job}입니다.`;
+}
+
+const name = introduceName('김태건');
+const age = introduceAge(24);
+const job = introduceJob('학생');
+
+const introduce1 = setInterval(() => document.write(name), 3000);
+setTimeout(() => { clearInterval(introduce1); }, 3000);
+const introduce2 = setInterval(() => document.write(age), 6000);
+setTimeout(() => { clearInterval(introduce2); }, 6000);
+const introduce3 = setInterval(() => document.write(job), 9000);
+setTimeout(() => { clearInterval(introduce3); }, 9000);
+
+</script>
+</body>
+</html>
