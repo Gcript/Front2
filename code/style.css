@@ -1,60 +1,42 @@
-h1 {
-    color: blue;
-    text-align: center;
-}
-
 body {
-    font-family: helvetica, arial, sans-serif;
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center; /* 중앙 정렬 */
+    color: rgb(128, 0, 255);
+    margin-top: 20px; /* 상단 여백 추가 */
 }
 
 #left-container {
-    background-color: #eee;
+    background-color: aquamarine;
     width: 15%;
-    left: 0px;
-    top: 0px;
+    height: 100vh;
     position: absolute;
-    height: 100%;
-    padding: 10px;
+    left: 0; /* 왼쪽에 고정 */
+    top: 0; /* 상단에 고정 */
 }
 
 #right-container {
-    background-color: #eee;
+    background-color: aqua;
     width: 15%;
-    right: 0px;
-    top: 0px;
+    height: 100vh;
     position: absolute;
-    height: 100%;
-    padding: 10px;
-}
-
-#left-container {
-    left: 0px;
-}
-
-#right-container {
-    right: 0px;
-}
-
-.container {
-    background-color: #eee;
-    width: 15%;
-    top: 0px;
-    position: absolute;
-    height: 100%;
-    padding: 10px;
+    right: 0; /* 오른쪽에 고정 */
+    top: 0; /* 상단에 고정 */
 }
 
 .plant-holder {
     position: relative;
-    margin-top: 25%;
-    height: 20%;
-    left: -10px;
+    width: 80%;
+    height: 10%;
+    margin: 0 auto; /* 수평 중앙 정렬 */
 }
 
 .plant {
-    position: relative;
-    max-width: 100%;
-    max-height: 50vh;
+    height: 80%;
+    width: 60%;
+    position: absolute;
     z-index: 2;
 }
 
@@ -110,7 +92,7 @@ body {
     width: 2%;
     height: 5%;
     background: #ffffff;
-    border-radius: 1rem 1rem 1rem 1rem;
+    border-radius: 1rem;
     opacity: 0.7;
     z-index: 1;
 }
@@ -122,8 +104,24 @@ body {
     width: 2%;
     height: 20%;
     background: #ffffff;
-    border-radius: 1rem 1rem 1rem 1rem;
+    border-radius: 1rem;
     opacity: 0.7;
     z-index: 1;
 }
 
+.jar-glossy-long {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+}
+
+.plant-in {
+    position: relative;
+    width: 60%;
+    height: 60%;
+    bottom: -100%;
+}
+
+.container {
+    position: relative;
+}
