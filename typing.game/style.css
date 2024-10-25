@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.quote {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.input {
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+}
+
+.input.error {
+    border-color: red;
+}
+
+.start-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.start-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.highlight {
+    background-color: #ffffcc;
+    /* 강조된 단어 배경색 */
+}
+
+.message {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+.error {
+    border: 2px solid red;
+    /* 빨간색 테두리 */
+    background-color: #ffe6e6;
+    /* 연한 빨간색 배경 */
+}
