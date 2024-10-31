@@ -123,6 +123,15 @@ typedValueElement.addEventListener('keydown', (event) => {
 // 모달 닫기 버튼 이벤트
 document.querySelector('.close-button').addEventListener('click', () => {
     modal.style.display = 'none';
+    
+    // 상태 초기화
+    quoteElement.innerHTML = '';
+    messageElement.innerText = '';
+    typedValueElement.value = '';
+    typedValueElement.className = '';
+    typedValueElement.disabled = true; // 입력 필드 비활성화
+    startButton.disabled = false; // 버튼 다시 활성화
+    fireworksContainer.style.display = 'none'; // 폭죽 컨테이너 숨기기
 });
 
 // 다시하기 버튼 이벤트
