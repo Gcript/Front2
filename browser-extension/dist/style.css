@@ -1,0 +1,139 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+}
+
+.container {
+    max-width: 330px;
+    height: 560px;
+    margin: auto;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: background-color 0.3s; /* 부드러운 전환 효과 */
+    margin-top: 10px;
+}
+
+.main-image {
+    width: 100%; /* 부모 요소에 맞춰 100% 크기 */
+    height: auto; /* 비율에 맞춰 높이 자동 조절 */
+    max-height: 80%; /* 최대 높이 설정 (80%로 제한) */
+    object-fit: cover; /* 비율을 유지하면서 잘라내기 */
+}
+
+.top-div{
+    margin-top: 15px;
+}
+
+.Welcome-text {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.Ask-new {
+    font-size: 22px;
+    margin: 10px 0 5px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input[type="text"] {
+    width: calc(55%); /* 입력 박스의 너비를 2/3로 설정 */
+    padding: 12px;
+    border: none;
+    border-radius: 8px; /* 모서리를 둥글게 설정 */
+    background-color: #f0f0f0; /* 내부 색상을 회색으로 설정 */
+    transition: border-color 0.3s; /* 부드러운 전환 효과 */
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 10px;
+    transition: background-color 0.3s; /* 부드러운 전환 효과 */
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.result {
+    margin-top: 20px;
+    display: none; /* 기본적으로 숨김 */
+}
+
+.result-container p {
+    margin: 5px 0;
+}
+
+.loading {
+    display: none; /* 로딩 중일 때 숨김 */
+}
+
+/* 다크 모드 스타일 */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.container.dark-mode {
+    background-color: #1e1e1e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+input[type="text"].dark-mode {
+    border: 1px solid #555; /* 다크 모드에서의 입력 박스 테두리 색상 */
+    background-color: #333; /* 다크 모드에서의 입력 박스 배경 색상 */
+    color: #e0e0e0; /* 다크 모드에서의 입력 박스 텍스트 색상 */
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+
+    .container {
+        background-color: #1e1e1e;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    input[type="text"] {
+        border: 1px solid #555;
+        background-color: #333;
+        color: #e0e0e0;
+    }
+
+    button {
+        background-color: #3e3e3e;
+        color: #ffffff;
+    }
+
+    button:hover {
+        background-color: #545454;
+    }
+
+    .result {
+        color: #e0e0e0;
+    }
+
+    .result-container {
+        background-color: #333333;
+        border-radius: 8px;
+        padding: 10px;
+    }
+}
