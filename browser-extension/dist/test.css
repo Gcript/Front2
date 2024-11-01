@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0; /* 기본 배경 색상 */
+    color: #333; /* 기본 글자 색상 */
+    transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
+}
+
+.container {
+    text-align: center;
+    padding: 50px;
+}
+
+.dark-mode {
+    background-color: #333; /* 다크 모드 배경 색상 */
+    color: #f0f0f0; /* 다크 모드 글자 색상 */
+}
