@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "browser-extension",
+    "version": "1.0",
+    "description": "browser-extension",
+    "permissions": ["declarativeContent"],
+    "action": {
+        "default_popup": "dist/index.html"
+    }
+}
