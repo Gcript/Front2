@@ -1,17 +1,54 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>다크 모드 예제</title>
-    <link rel="stylesheet" href="./test.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>My Carbon Trigger</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    <div class="container">
-        <h1>다크 모드 예제</h1>
-        <p>여기에서 다크 모드를 활성화하거나 비활성화할 수 있습니다.</p>
-        <button id="toggleDarkMode">다크 모드 켜기</button>
+<body class="container">
+    <div class="top-div">
+        <img alt="plants and people" class="main-image" src="./images/plants-people.png" />
     </div>
-    <script src="./test.js"></script>
+    <p class="Welcome-text">Welcome to Your Personal Carbon Trigger!</p>
+    <!-- form area -->
+    <form class="form-data" autocomplete="on">
+        <p class="Ask-new">
+            New? Add your Information
+        </p>
+        <div>
+            <label for="region"><b>Region Name</b></label>
+            <input type="text" id="region" required class="region-name" />
+        </div>
+        <div>
+            <label for="api"><b>Your API Key from tmrow</b></label>
+            <input type="text" id="api" required class="api-key" />
+        </div>
+        <button class="search-btn">Submit</button>
+    </form>
+    <!-- result area -->
+    <div class="result">
+        <div class="loading">loading...</div>
+        <div class="errors"></div>
+        <div class="data"></div>
+        <div class="result-container1">
+            <p><strong>Region: </strong><span class="my-region"></span></p>
+            <p><strong>Carbon Usage: </strong><span class="carbon-usage"></span></p>
+            <p><strong>Fossil Fuel Percentage: </strong><span class="fossil-fuel"></span></p>
+        </div>
+        <div class="result-container2">
+            <p><strong>Region: </strong><span class="my-region"></span></p>
+            <p><strong>Carbon Usage: </strong><span class="carbon-usage"></span></p>
+            <p><strong>Fossil Fuel Percentage: </strong><span class="fossil-fuel"></span></p>
+        </div>
+        <div class="result-container3">
+            <p><strong>Region: </strong><span class="my-region"></span></p>
+            <p><strong>Carbon Usage: </strong><span class="carbon-usage"></span></p>
+            <p><strong>Fossil Fuel Percentage: </strong><span class="fossil-fuel"></span></p>
+        </div>
+        <button class="clear-btn">Change region</button>
+    </div>
+    <script src="./main.js"></script>
 </body>
 </html>
