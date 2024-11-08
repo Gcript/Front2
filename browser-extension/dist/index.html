@@ -18,8 +18,16 @@
             New? Add your Information
         </p>
         <div>
-            <label for="region"><b>Region Name</b></label>
-            <input type="text" id="region" required class="region-name" />
+            <label for="region1"><b>Region Name 1</b></label>
+            <input type="text" id="region1" required class="region-name" />
+        </div>
+        <div>
+            <label for="region2"><b>Region Name 2</b></label>
+            <input type="text" id="region2" required class="region-name" />
+        </div>
+        <div>
+            <label for="region3"><b>Region Name 3</b></label>
+            <input type="text" id="region3" required class="region-name" />
         </div>
         <div>
             <label for="api"><b>Your API Key from tmrow</b></label>
@@ -32,12 +40,13 @@
         <div class="loading">loading...</div>
         <div class="errors"></div>
         <div class="data"></div>
-        <div class="result-container">
-            <p><strong>Region: </strong><span class="my-region"></span></p>
-            <p><strong>Carbon Usage: </strong><span class="carbon-usage"></span></p>
-            <p><strong>Fossil Fuel Percentage: </strong><span class="fossil-fuel"></span></p>
-        </div>
+        <!-- 결과 컨테이너를 3개로 분리하여 표시 -->
+        <div id="result-container-1" class="result-container"></div>
+        <div id="result-container-2" class="result-container"></div>
+        <div id="result-container-3" class="result-container"></div>
         <button class="clear-btn">Change region</button>
     </div>
+    
+    <script src="./main.js"></script>
 </body>
 </html>
