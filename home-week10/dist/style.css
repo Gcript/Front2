@@ -1,0 +1,179 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: linear-gradient(to bottom right, #e3f2fd, #90caf9);
+    width: 400px; /* 팝업 너비에 맞춤 */
+    max-width: 400px; /* 팝업 창 너비 제한 */
+    color: #333;
+    margin: 0;
+    padding: 15px; /* 내부 여백 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 600px; /* 팝업 창 높이에 맞춤 */
+    min-height: 300px; /* 팝업 창 기본 높이 */
+    box-sizing: border-box;
+}
+
+/* 제목 */
+h1 {
+    color: #1e88e5;
+    text-align: center;
+    margin-bottom: 15px; /* 간격 줄임 */
+    font-size: 1.5rem; /* 크기 축소 */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 컨테이너 스타일 */
+#result {
+    background: #ffffff;
+    padding: 20px;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+    box-sizing: border-box; /* 추가 */
+}
+
+
+/* 폼 레이블 */
+label {
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 입력 필드, 버튼 스타일 */
+select, input[type="date"], button {
+    padding: 10px; /* 높이 축소 */
+    font-size: 0.9rem; /* 크기 조정 */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    width: 100%; /* 팝업 너비에 맞춤 */
+    margin-bottom: 10px; /* 간격 축소 */
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #42a5f5;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+    background-color: #1e88e5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(30, 136, 229, 0.3);
+}
+
+button:disabled {
+    background-color: #cfd8dc;
+    cursor: not-allowed;
+}
+
+/* 다이어리 텍스트 에어리어 */
+textarea {
+    width: 100%; /* 부모 요소의 너비를 완전히 차지 */
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 크기 계산 */
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+/*
+textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    resize: none;
+    outline: none;
+    transition: all 0.3s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+*/
+
+/* 저장 메시지 */
+#saved-message {
+    color: #2ecc71;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 1rem;
+    width: 100%;
+}
+
+/* 날씨 섹션 */
+#weather {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background: linear-gradient(to right, #fce4ec, #f8bbd0);
+    padding: 10px; /* 간격 축소 */
+    border-radius: 8px;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-align: center;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 400px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.3rem;
+    }
+
+    select, input[type="date"], button, textarea {
+        width: 100%; /* 팝업 크기에 맞춤 */
+        margin-bottom: 8px;
+    }
+
+    #result {
+        padding: 15px;
+    }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 추가적인 사용자 피드백 */
+input[type="date"]:hover, select:hover, textarea:hover {
+    border-color: #42a5f5;
+    background-color: #f1f8fe;
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
