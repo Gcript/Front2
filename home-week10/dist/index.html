@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather & Diary</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Weather & Diary</h1>
+    
+    <!-- 지역 선택 드롭다운 메뉴 -->
+    <label for="location">Select Location:</label>
+    <select id="location">
+        <option value="Seoul">Seoul</option>
+        <option value="Incheon">Incheon</option>
+        <option value="Daegu">Daegu</option>
+        <option value="Gwangju">Gwangju</option>
+        <option value="Jeju">Jeju</option>
+    </select>
+    
+    <!-- 날짜 선택 -->
+    <input type="date" id="selected-date">
+    <button id="get-info">Get Info</button>
+    
+    <div id="result">
+        <h2>Weather</h2>
+        <p id="weather"></p>
+        
+        <h2>Diary</h2>
+        <textarea id="diary" placeholder="Write your diary here..." disabled></textarea>
+        <button id="save-diary" disabled>Save Diary</button>
+        <button id="edit-diary">Edit Diary</button>
+        <p id="saved-message" style="display: none;">Diary saved!</p>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
