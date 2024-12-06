@@ -493,7 +493,7 @@ function isEnemiesDead() {
         const lastboss = gameObjects.find((go) => go.type === "lastboss" && go.dead);
         return lastboss !== undefined; // 마지막 보스가 죽으면 true 반환
     }
-    return gameObjects.filter((go) => go.type === "Enemy" && !go.dead).length === 0;
+    return false;
 }
 
 function displayMessage(message, color = "red") {
@@ -602,7 +602,7 @@ function incrementStage() {
 
         // 캔버스 중앙에 팝업 표시
         showStagePopup();
-    }, 1000); // 20초마다 실행
+    }, 1000); // 10초마다 실행
 }
 
 

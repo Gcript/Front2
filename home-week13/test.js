@@ -108,7 +108,7 @@ class Enemy extends GameObject {
                 this.dy *= -1; // Y축 방향 반전
             }
 
-            // 만약 객체가 파괴되었으면 타이머 종료
+            // 만약 객체가 파괴되면 타이머 종료
             if (this.dead) {
                 clearInterval(id);
             }
