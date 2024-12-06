@@ -1,0 +1,22 @@
+/* 좌측 상단에 기본 스테이지 표시 */
+.stage-display {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 18px;
+    color: white;
+    z-index: 10;
+}
+
+/* 캔버스 중앙에 표시되는 스테이지 팝업 */
+.stage-popup {
+    position: absolute;
+    font-size: 60px;
+    color: gold;
+    text-shadow: 0 0 20px #ff0, 0 0 40px gold;
+    opacity: 0; /* 기본적으로 보이지 않음 */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 20;
+    pointer-events: none; /* 팝업은 클릭 불가 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 */
+}
