@@ -602,7 +602,7 @@ function incrementStage() {
 
         // 캔버스 중앙에 팝업 표시
         showStagePopup();
-    }, 1000); // 20초마다 실행
+    }, 10000); // 10초마다 실행
 }
 
 

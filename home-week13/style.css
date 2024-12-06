@@ -1,4 +1,4 @@
-/* 좌측 상단에 기본 스테이지 표시 */
+/* 좌측 상단에 기본 stage 표시 */
 .stage-display {
     position: absolute;
     top: 10px;
@@ -8,7 +8,7 @@
     z-index: 10;
 }
 
-/* 캔버스 중앙에 표시되는 스테이지 팝업 */
+/* 캔버스 중앙에 표시되는 stage 팝업 */
 .stage-popup {
     position: absolute;
     font-size: 60px;
