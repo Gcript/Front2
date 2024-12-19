@@ -31,16 +31,34 @@ class Hero extends GameObject {
         this.type = 'Hero';
         this.cooldown = 0; // 초기화
 
+        this.isProtected = false; // 보호 상태 여부
+
         this.life = 3; // 12.06
         this.points = 0; // 12.06
+        this.specialAvailable = true; // 필살기 사용 가능 여부
     }
 
     decrementLife() {
+        if (this.isProtected) return; // 보호 상태일 때는 피해를 받지 않음
         this.life--;
+
+        if (this.life < 2) {
+            this.img = heroDamagedImg; // life가 2 미만일 경우 변경
+        }
+
         if (this.life === 0) {
             this.dead = true;
         }
     } // 
+
+    activateShield(duration = 3000) { // 기본 3초간 보호
+        this.isProtected = true;
+        this.img = ProtectedImg;
+        setTimeout(() => {
+            this.isProtected = false; // 보호 상태 해제
+            this.img = heroImg;
+        }, duration);
+    }
 
     incrementPoints(isBoss) {
         if (isBoss) {
@@ -49,7 +67,7 @@ class Hero extends GameObject {
             this.points += 100; // 일반 적을 죽이면 100점 추가
         }
     }
-    
+
 
     fire() {
         if (this.canFire()) { // 쿨다운 확인
@@ -66,6 +84,12 @@ class Hero extends GameObject {
     }
     canFire() {
         return this.cooldown === 0; // 쿨다운 상태 확인
+    }
+    activateSpecial() {
+        if (this.specialAvailable) {
+            this.specialAvailable = false; // 필살기는 한 번만 사용 가능
+            eventEmitter.emit(Messages.SPECIAL_ACTIVATED);
+        }
     }
 }
 
@@ -108,7 +132,7 @@ class Enemy extends GameObject {
                 this.dy *= -1; // Y축 방향 반전
             }
 
-            // 만약 객체가 파괴되면 타이머 종료
+            // 만약 객체가 파괴되었으면 타이머 종료
             if (this.dead) {
                 clearInterval(id);
             }
@@ -137,7 +161,7 @@ class BossEnemy extends GameObject {
         this.dx = Math.random() < 0.5 ? -1 : 1;
         this.dy = Math.random() < 0.5 ? -1 : 1;
 
-        let id = setInterval(() => {
+        let moveId = setInterval(() => {
             // 이동 업데이트
             this.x += this.dx * 1.5; // 보스는 느리게 움직임
             this.y += this.dy * 1.5;
@@ -150,11 +174,23 @@ class BossEnemy extends GameObject {
                 this.dy *= -1;
             }
 
-            // 보스가 죽으면 타이머 종료
+            // 보스가 죽으면 이동 멈춤
             if (this.dead) {
-                clearInterval(id);
+                clearInterval(moveId);
             }
         }, 30);
+
+        // 자동 공격 추가
+        let attackId = setInterval(() => {
+            if (!this.dead) {
+                // 보스가 죽지 않은 상태에서만 레이저 발사
+                const laserX = this.x + this.width / 2 - 5; // 보스 중심에서 발사
+                const laserY = this.y + this.height; // 보스의 아래쪽에서 발사
+                gameObjects.push(new BossLaser(laserX, laserY));
+            } else {
+                clearInterval(attackId); // 보스가 죽으면 공격 멈춤
+            }
+        }, 2000); // 2초마다 레이저 발사
     }
 
     takeDamage() {
@@ -164,6 +200,7 @@ class BossEnemy extends GameObject {
         }
     }
 }
+
 
 
 class Laser extends GameObject {
@@ -182,6 +219,26 @@ class Laser extends GameObject {
         }, 100);
     }
 }
+
+class BossLaser extends GameObject {
+    constructor(x, y) {
+        super(x, y);
+        this.width = 50;
+        this.height = 50;
+        this.type = "BossLaser";
+        this.img = bossLaserImg; // 기존 레이저 이미지 재사용 가능
+
+        let id = setInterval(() => {
+            if (this.y < canvas.height) {
+                this.y += 15; // 레이저가 아래로 이동
+            } else {
+                this.dead = true; // 화면 아래쪽에 도달하면 제거
+                clearInterval(id);
+            }
+        }, 100);
+    }
+}
+
 
 class Shot extends GameObject {
     constructor(x, y) {
@@ -227,12 +284,14 @@ const Messages = {
     KEY_EVENT_RIGHT: "KEY_EVENT_RIGHT",
     KEY_EVENT_SPACE: "KEY_EVENT_SPACE",
     KEY_EVENT_ENTER: "KEY_EVENT_ENTER",
+    SPECIAL_ACTIVATED: "SPECIAL_ACTIVATED",
     COLLISION_ENEMY_LASER: "COLLISION_ENEMY_LASER",
     COLLISION_ENEMY_HERO: "COLLISION_ENEMY_HERO",
     GAME_END_LOSS: "GAME_END_LOSS",
     GAME_END_WIN: "GAME_END_WIN",
 };
 let heroImg,
+    heroDamagedImg,
     lifeImg,
     assistance_heroImg1,
     assistance_heroImg2,
@@ -240,6 +299,7 @@ let heroImg,
     bossImg,
     shotImg,
     laserImg,
+    bossLaserImg,
     canvas, ctx,
     gameObjects = [],
     hero,
@@ -249,6 +309,8 @@ let heroImg,
     assistanceHeight,
     stageIntervalId,
     stage = 1,
+    specialImg,
+    ProtectedImg,
     eventEmitter = new EventEmitter();
 
 let onKeyDown = function (e) {
@@ -282,15 +344,19 @@ window.onload = async () => {
     canvas = document.getElementById("myCanvas");
     ctx = canvas.getContext("2d");
     heroImg = await loadTexture("assets/player.png");
-    assistance_heroImg1 = await loadTexture('assets/player.png');
-    assistance_heroImg2 = await loadTexture('assets/player.png');
+    heroDamagedImg = await loadTexture("assets/playerDamaged.png");
+    assistance_heroImg1 = await loadTexture('assets/playerLeft.png');
+    assistance_heroImg2 = await loadTexture('assets/playerRight.png');
     assistanceWidth = assistance_heroImg1.width * 0.5;
     assistanceHeight = assistance_heroImg1.height * 0.5;
     enemyImg = await loadTexture("assets/enemyShip.png");
-    bossImg = await loadTexture("assets/enemyShip.png");
+    bossImg = await loadTexture("assets/enemyUFO.png");
     shotImg = await loadTexture("assets/laserGreenShot.png");
     laserImg = await loadTexture("assets/laserRed.png");
+    bossLaserImg = await loadTexture("assets/meteorSmall.png");
     lifeImg = await loadTexture("assets/life.png");
+    specialImg = await loadTexture("assets/laserRedShot.png");
+    ProtectedImg = await loadTexture("assets/shield.png")
 
     initGame();
 };
@@ -308,7 +374,7 @@ let gameLoopId = setInterval(() => {
         createBoss(stage);
         bossSpawned = true; // 보스가 생성되었음을 표시
 
-        if (stage === 20){
+        if (stage === 20) {
             boss.type = "lastboss";
         }
     }
@@ -398,7 +464,19 @@ function drawGameObjects(ctx) {
 
 function updateGameObjects() {
     const enemies = gameObjects.filter(go => go.type === 'Enemy' || go.type === 'Boss' || go.type === 'lastboss');
-    const lasers = gameObjects.filter((go) => go.type === "Laser");
+    const lasers = gameObjects.filter(go => go.type === "Laser");
+    const bossLasers = gameObjects.filter(go => go.type === "BossLaser");
+
+    bossLasers.forEach(laser => {
+        const heroRect = hero.rectFromGameObject();
+        if (intersectRect(heroRect, laser.rectFromGameObject())) {
+            laser.dead = true; // 레이저 제거
+            hero.decrementLife(); // 히어로 생명 감소
+            if (isHeroDead()) {
+                eventEmitter.emit(Messages.GAME_END_LOSS);
+            }
+        }
+    });
 
     enemies.forEach(enemy => {
         const heroRect = hero.rectFromGameObject();
@@ -411,7 +489,7 @@ function updateGameObjects() {
             eventEmitter.emit(Messages.COLLISION_ENEMY_HERO, { enemy });
         }
     });
-    
+
 
     lasers.forEach((l) => {
         enemies.forEach((enemy) => {
@@ -443,6 +521,7 @@ function intersectRect(r1, r2) {
     );
 };
 
+let shieldActivated = false; // 한 번만 사용 가능
 
 window.addEventListener("keydown", (evt) => {
     if (evt.key === "ArrowUp") {
@@ -453,11 +532,15 @@ window.addEventListener("keydown", (evt) => {
         eventEmitter.emit(Messages.KEY_EVENT_LEFT);
     } else if (evt.key === "ArrowRight") {
         eventEmitter.emit(Messages.KEY_EVENT_RIGHT);
-    }
-    else if (evt.keyCode === 32) {
+    } else if (evt.key === "c" || evt.key === "C") {
+        hero.activateSpecial(); // 필살기 발동
+    } else if (evt.key === "f" && !shieldActivated) {
+        shieldActivated = true; // 보호 상태는 한 번만 활성화 가능
+        hero.activateShield();
+        console.log("Shield activated! Hero is now protected.");
+    } else if (evt.keyCode === 32) {
         eventEmitter.emit(Messages.KEY_EVENT_SPACE);
-    }
-    else if (evt.key === "Enter") {
+    } else if (evt.key === "Enter") {
         eventEmitter.emit(Messages.KEY_EVENT_ENTER);
     }
 });
@@ -493,7 +576,7 @@ function isEnemiesDead() {
         const lastboss = gameObjects.find((go) => go.type === "lastboss" && go.dead);
         return lastboss !== undefined; // 마지막 보스가 죽으면 true 반환
     }
-    return gameObjects.filter((go) => go.type === "Enemy" && !go.dead).length === 0;
+    return false;
 }
 
 function displayMessage(message, color = "red") {
@@ -533,12 +616,12 @@ function endGame(win) {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         if (win) {
             displayMessage(
-                "Victory!!! Pew Pew... - Press [Enter] to start a new game Captain Pew Pew",
+                `Victory!!! Your Point is ${hero.points}\n- Press [Enter] to start a new game Captain Pew Pew`,
                 "green"
             );
         } else {
             displayMessage(
-                "You died !!! Press [Enter] to start a new game Captain Pew Pew"
+                `You died !!! Your Point is ${hero.points}\n- Press [Enter] to start a new game Captain Pew Pew`
             );
         }
     }, 200);
@@ -602,12 +685,14 @@ function incrementStage() {
 
         // 캔버스 중앙에 팝업 표시
         showStagePopup();
-    }, 1000); // 20초마다 실행
+    }, 2000); // 10초마다 실행
 }
 
 
 function initGame() {
     let move = 15;
+    stage = 1;
+
 
     gameObjects = [];
     createEnemies();
@@ -645,6 +730,57 @@ function initGame() {
         }
     });
 
+    eventEmitter.on(Messages.SPECIAL_ACTIVATED, () => {
+        const enemies = gameObjects.filter(go => go.type === "Enemy" || go.type === "Boss" || go.type === "lastboss");
+        enemies.forEach(enemy => {
+            enemy.dead = true; // 모든 적과 보스 제거
+            hero.incrementPoints(enemy.type === "Boss" || enemy.type === "lastboss");
+        });
+
+        fadeInOutSpecialImage();
+});
+
+
+function fadeInOutSpecialImage() {
+    const imgWidth = canvas.width / 2;
+    const imgHeight = canvas.height / 2;
+    const centerX = (canvas.width - imgWidth) / 2;
+    const centerY = (canvas.height - imgHeight) / 2;
+
+    let opacity = 0;
+    let phase = "fadeIn"; // "fadeIn" or "fadeOut"
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 설정된 opacity로 이미지 그리기
+        ctx.globalAlpha = opacity;
+        ctx.drawImage(specialImg, centerX, centerY, imgWidth, imgHeight);
+        ctx.globalAlpha = 1.0; // alpha 값 초기화
+
+        // opacity 조정
+        if (phase === "fadeIn") {
+            opacity += 0.02; // 점점 밝아짐
+            if (opacity >= 1) {
+                phase = "fadeOut"; // 전환
+            }
+        } else if (phase === "fadeOut") {
+            opacity -= 0.02; // 점점 어두워짐
+            if (opacity <= 0) {
+                // 애니메이션 종료
+                return;
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+
     eventEmitter.on(Messages.COLLISION_ENEMY_LASER, (_, { first, second }) => {
         first.dead = true;
 
@@ -671,8 +807,13 @@ function initGame() {
     });
 
     eventEmitter.on(Messages.COLLISION_ENEMY_HERO, (_, { enemy }) => {
-        enemy.dead = true;
-        hero.decrementLife();
+        if (!hero.isProtected) { // 보호 상태가 아닐 때만 피해를 입음
+            enemy.dead = true;
+            hero.decrementLife();
+        } else {
+            console.log("Collision ignored due to shield!");
+        }
+    
         if (isHeroDead()) {
             eventEmitter.emit(Messages.GAME_END_LOSS);
             return; // loss before victory
